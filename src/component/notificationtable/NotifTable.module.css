@@ -1,0 +1,10 @@
+.approved {
+    color:rgb(41, 10, 69);
+    padding:7px;
+    background-color: rgb(189, 150, 226);
+}
+.pending{
+    color:rgb(182, 101, 3);
+    background-color:rgb(243, 243, 210);
+    padding:7px
+}
