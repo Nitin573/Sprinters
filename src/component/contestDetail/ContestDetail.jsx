@@ -25,6 +25,8 @@ const ContestDetail = () => {
       prizes:""
     });
 
+    const [deleteContestId, setDeleteContestId] = useState(""); // State to store the ID of the contest to delete
+
 
     
     const handleChange = (e) => {
@@ -35,13 +37,20 @@ const ContestDetail = () => {
         });
       };
 
+      const handleDeleteChange = (e) => {
+        setDeleteContestId(e.target.value);
+      };
+
+      
       const handleSubmit = async (e) => {
         e.preventDefault();
         // Confirmation window after successfully adding a new contest
         const isConfirmed = window.confirm("Are you sure you want to add a new contest?");
-        const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NDI1ZDlhNjk2MjhlYzM5MmNhNjYyYSIsImlhdCI6MTY5OTQ1MjIyMiwiZXhwIjoxNjk5NDU1ODIyfQ.1zZ6vfRC3HQ5KMq27IPNX2I_xOa-OqLowsH0wFJ2HmM"; // Replace with your actual bearer token
+        const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NDI1ZDlhNjk2MjhlYzM5MmNhNjYyYSIsImlhdCI6MTY5OTU0MzA2OCwiZXhwIjoxNjk5NTQ2NjY4fQ.yhu9WzLQt49hFGP4lPuusiOXZNiPASQ7c0nrWSGEmCo"; // Replace with your actual bearer token
         const apiUrl = "https://hotel-project.onrender.com/S-Printer-App/ContestRoute/addContest";
-    
+        // Clear the delete input field after successfully adding a contest
+        setDeleteContestId("");
+
         const headers = {
           Authorization: token,
         };
@@ -58,7 +67,31 @@ const ContestDetail = () => {
         });
       };
     
-
+      const handleDelete = async () => {
+        // Confirmation window before deleting the contest
+        const isConfirmed = window.confirm("Are you sure you want to delete this contest?");
+        if (isConfirmed) {
+          // Add your code to send a request to delete the contest with the ID stored in deleteContestId
+          const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NDI1ZDlhNjk2MjhlYzM5MmNhNjYyYSIsImlhdCI6MTY5OTU0MzA2OCwiZXhwIjoxNjk5NTQ2NjY4fQ.yhu9WzLQt49hFGP4lPuusiOXZNiPASQ7c0nrWSGEmCo"; // Replace with your actual bearer token
+          const apiUrl = "https://hotel-project.onrender.com/S-Printer-App/ContestRoute/deleteContest/65462aa32d2488ec39add58e"; // Replace with your API URL
+      
+          const headers = {
+            Authorization: token,
+          };
+      
+          axios
+            .delete(apiUrl, { headers })
+            .then((response) => {
+              console.log("Contest deleted:", response.data);
+              // Refresh the page after successfully deleting the contest
+              window.location.reload();
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        }
+      };
+      
   
   return (
  <>
@@ -305,6 +338,50 @@ const ContestDetail = () => {
         </Card>
         </form>
       </Container>
+      <Box>
+
+  <InputLabel htmlFor="deleteContestId" sx={{ color: "black", fontSize: "1.5rem", marginBottom: ".3rem", marginTop:"20px" }}>Delete Contest by ID</InputLabel>
+  <TextField
+    sx={{
+      marginBottom: 2,
+      boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+      fontFamily: "Arial, sans-serif",
+      backgroundColor:"white",
+    }}
+    fullWidth
+    id="deleteContestId"
+    name="deleteContestId"
+    variant="outlined"
+    label="Contest ID"
+    placeholder="Enter Contest ID to delete"
+    value={deleteContestId}
+    onChange={handleDeleteChange}
+  />
+</Box>
+<CardActions
+  sx={{
+    display: "flex",
+    justifyContent: "center",
+    paddingTop: 2,
+    // marginTop: "20px",
+  }}
+>
+  <Button
+    variant="contained"
+    onClick={handleDelete}
+    sx={{
+      background: "linear-gradient(8deg, rgba(218,10,46,1) 0%, rgba(121,9,30,1) 35%, rgba(222,16,6,1) 100%)",
+      color: "white",
+      fontFamily: "Arial, sans-serif",
+      boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+      padding: "12px 24px",
+      marginTop: "20px",
+    }}
+  >
+    Delete Contest
+  </Button>
+</CardActions>
+
       </Box>
 
  </>

@@ -10,7 +10,7 @@ const ClientTestimonials = () => {
     fetch('https://hotel-project.onrender.com/S-printer-App/TestimonialRoute/allTestimonials', {
       method: 'GET',
       headers: {
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NDI1ZDlhNjk2MjhlYzM5MmNhNjYyYSIsImlhdCI6MTY5OTQ1MjIyMiwiZXhwIjoxNjk5NDU1ODIyfQ.1zZ6vfRC3HQ5KMq27IPNX2I_xOa-OqLowsH0wFJ2HmM',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NDI1ZDlhNjk2MjhlYzM5MmNhNjYyYSIsImlhdCI6MTY5OTU0MzA2OCwiZXhwIjoxNjk5NTQ2NjY4fQ.yhu9WzLQt49hFGP4lPuusiOXZNiPASQ7c0nrWSGEmCo',
       },
     })
       .then((response) => response.json())
