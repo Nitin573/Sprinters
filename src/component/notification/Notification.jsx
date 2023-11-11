@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from "axios";
+import FetchToken1 from '../../component/login/FetchToken1';
 import {
     Box,
     Button,
@@ -31,7 +32,12 @@ const Notification = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NDI1ZDlhNjk2MjhlYzM5MmNhNjYyYSIsImlhdCI6MTY5OTU0MzA2OCwiZXhwIjoxNjk5NTQ2NjY4fQ.yhu9WzLQt49hFGP4lPuusiOXZNiPASQ7c0nrWSGEmCo";
+    const tokenExpireTime = parseInt(localStorage.getItem("tokenExpireTime"), 10);
+
+    if(Date.now() > tokenExpireTime){
+     FetchToken1();
+    }
+    const token = 'Bearer '+localStorage.getItem("accessToken");
     const apiUrl = "https://hotel-project.onrender.com/S-Printer-App/Notification/addNotification";
 
     const headers = {

@@ -26,10 +26,22 @@ const Login = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    if(e.target.name == 'email'){
+      localStorage.setItem("email", e.target.value);
+    }
+    if(e.target.name == 'password'){
+      localStorage.setItem("password", e.target.value);
+    }
+    
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    console.log('email  <<  '+localStorage.getItem("email"));
+
+    console.log('password  <<  '+localStorage.getItem("password"));
 
     try {
       const response = await axios.post(
@@ -39,8 +51,13 @@ const Login = () => {
 
       const { accessToken } = response.data;
 
-      console.log("accessToken", accessToken);
+      console.log("accessToken  !!!  ", accessToken);
       localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("tokenExpireTime", Date.now() + 1000 *60*60 *24);
+
+      console.log('token with local storage  <<<<   '+localStorage.getItem("accessToken"));
+      console.log('time with local storage  <<<<   '+localStorage.getItem("tokenExpireTime"));
+
       navigate("/dashboard");
       console.log("Login successful:", response.data);
     } catch (error) {

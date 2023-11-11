@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from "axios";
+import FetchToken1 from '../../component/login/FetchToken1';
 import {
     Box,
     Button,
@@ -44,9 +45,14 @@ const ContestDetail = () => {
       
       const handleSubmit = async (e) => {
         e.preventDefault();
+        const tokenExpireTime = parseInt(localStorage.getItem("tokenExpireTime"), 10);
+
+        if(Date.now() > tokenExpireTime){
+         FetchToken1();
+        }
         // Confirmation window after successfully adding a new contest
         const isConfirmed = window.confirm("Are you sure you want to add a new contest?");
-        const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NDI1ZDlhNjk2MjhlYzM5MmNhNjYyYSIsImlhdCI6MTY5OTU0MzA2OCwiZXhwIjoxNjk5NTQ2NjY4fQ.yhu9WzLQt49hFGP4lPuusiOXZNiPASQ7c0nrWSGEmCo"; // Replace with your actual bearer token
+        const token = 'Bearer ' + localStorage.getItem("accessToken"); // Replace with your actual bearer token
         const apiUrl = "https://hotel-project.onrender.com/S-Printer-App/ContestRoute/addContest";
         // Clear the delete input field after successfully adding a contest
         setDeleteContestId("");
@@ -60,7 +66,16 @@ const ContestDetail = () => {
         .then((response) => {
           console.log("Response:", response.data); // Assuming the message is in the response
           // Refresh the page after successfully adding a new contest
-          window.location.reload();
+          setFormData({
+            Name:"",
+          detail:"",
+          startDate:"",
+          endDate:"",
+          RulesOfContest: "",
+          entry:"",
+          prizes:""
+        });
+          // window.location.reload();
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -71,8 +86,13 @@ const ContestDetail = () => {
         // Confirmation window before deleting the contest
         const isConfirmed = window.confirm("Are you sure you want to delete this contest?");
         if (isConfirmed) {
+          const tokenExpireTime = parseInt(localStorage.getItem("tokenExpireTime"), 10);
+
+          if(Date.now() > tokenExpireTime){
+           FetchToken1();
+          }
           // Add your code to send a request to delete the contest with the ID stored in deleteContestId
-          const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NDI1ZDlhNjk2MjhlYzM5MmNhNjYyYSIsImlhdCI6MTY5OTU0MzA2OCwiZXhwIjoxNjk5NTQ2NjY4fQ.yhu9WzLQt49hFGP4lPuusiOXZNiPASQ7c0nrWSGEmCo"; // Replace with your actual bearer token
+          const token = 'Bearer ' + localStorage.getItem("accessToken"); // Replace with your actual bearer token
           const apiUrl = "https://hotel-project.onrender.com/S-Printer-App/ContestRoute/deleteContest/65462aa32d2488ec39add58e"; // Replace with your API URL
       
           const headers = {
@@ -84,7 +104,9 @@ const ContestDetail = () => {
             .then((response) => {
               console.log("Contest deleted:", response.data);
               // Refresh the page after successfully deleting the contest
-              window.location.reload();
+
+              
+              // window.location.reload();
             })
             .catch((error) => {
               console.error("Error:", error);

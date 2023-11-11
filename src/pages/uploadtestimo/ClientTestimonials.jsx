@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import FetchToken1 from '../../component/login/FetchToken1';
 import NavBar from '../../component/navbar/NavBar';
+
+
 import { Box, Container, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 const ClientTestimonials = () => {
@@ -7,10 +10,17 @@ const ClientTestimonials = () => {
 
   useEffect(() => {
     // Make a GET request to the API endpoint
+
+   const tokenExpireTime = parseInt(localStorage.getItem("tokenExpireTime"), 10);
+
+   if(Date.now() > tokenExpireTime){
+    FetchToken1();
+   }
+
     fetch('https://hotel-project.onrender.com/S-printer-App/TestimonialRoute/allTestimonials', {
       method: 'GET',
       headers: {
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NDI1ZDlhNjk2MjhlYzM5MmNhNjYyYSIsImlhdCI6MTY5OTU0MzA2OCwiZXhwIjoxNjk5NTQ2NjY4fQ.yhu9WzLQt49hFGP4lPuusiOXZNiPASQ7c0nrWSGEmCo',
+        'Authorization': 'Bearer '+localStorage.getItem("accessToken"),
       },
     })
       .then((response) => response.json())
